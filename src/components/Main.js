@@ -13,6 +13,7 @@ const Main = () => {
   const [bruttoBrutto, setBruttoBrutto] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isBolded, setIsBolded] = useState(true);
+  const [isChecked, setIsChecked] = useState('brutto')
 
   const handleValueChange = (e) => {
     e.target.type === "radio" ? setRadioVal(e.target.value) : setInputVal(e.target.value);
@@ -56,9 +57,10 @@ const Main = () => {
                 setIsBolded(true);
               }}
               htmlFor="brutto"
+      
             >
               brutto
-              <input type="radio" name="typ_wynagrodzenia" id="brutto" value="brutto" onClick={handleValueChange} />
+              <input type="radio" name="typ_wynagrodzenia" id="brutto" value="brutto" onClick={handleValueChange} checked={isChecked === "brutto"} onChange={(e)=>{setIsChecked(e.target.value)}}/>
             </StyledRadioLabel>
             <StyledRadioLabel
               style={{ fontWeight: !isBolded ? "bold" : "normal" }}
@@ -69,11 +71,13 @@ const Main = () => {
               or="netto"
             >
               netto (na ręke)
-              <input type="radio" id="netto" name="typ_wynagrodzenia" value="netto" onClick={handleValueChange} />
+              <input type="radio" id="netto" name="typ_wynagrodzenia" value="netto" onClick={handleValueChange} checked={isChecked === "netto"} onChange={(e)=>{setIsChecked(e.target.value)}}/>
             </StyledRadioLabel>
             <StyledForm onSubmit={handleSubmit}>
+
               <KwotaWrapper>
-                kwota wynagrodzenia {radioVal === "brutto" ? "(brutto)" : "(netto)"}
+              <StyledTitle>Podaj kwotę wynagrodzenia</StyledTitle>
+                <span>kwota wynagrodzenia {radioVal === "brutto" ? "(brutto)" : "(netto)"}</span>
                 <input type="number" value={inputVal} onChange={handleValueChange} />
               </KwotaWrapper>
               <StyledButton type="submit" value="Oblicz" />
@@ -85,7 +89,13 @@ const Main = () => {
             <StyledWrapper>
               <div style={{ width: "50%" }}>
                 {" "}
-                <Netto>{radioVal === "brutto" ? <CountNetto kwota={netto} /> : <CountBrutto kwota={brutto} />}</Netto>
+                <Netto>
+                  {radioVal === "brutto" ? (
+                    <CountNetto kwota={netto} wpis={inputVal} />
+                  ) : (
+                    <CountBrutto kwota={brutto} wpis={inputVal} />
+                  )}
+                </Netto>
                 <Netto>
                   <CountBruttoBrutto kwota={bruttoBrutto} salaryType={radioVal} />
                 </Netto>
@@ -172,7 +182,7 @@ const KwotaWrapper = styled.label`
   &:after {
     content: "ZŁ";
     position: absolute;
-    top: 59%;
+    top: 74%;
     right: 40px;
     font-size: 21px;
   }
@@ -234,6 +244,10 @@ const StyledRadioLabel = styled.label`
   input {
     cursor: pointer;
   }
+`;
+
+const StyledTitle = styled.span`
+  margin-bottom: 20px;
 `;
 
 export default Main;

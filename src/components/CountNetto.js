@@ -1,14 +1,15 @@
 import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
+
 
 const propTypes = {};
 
 const defaultProps = {};
 
-const CountNetto = ({ kwota }) => {
+const CountNetto = ({ kwota, wpis }) => {
   return (
     <div>
+      brutto: <span style={{marginLeft: '20px', fontWeight:'800'}}>{wpis}  zł</span>
+      <br />
       netto (na ręke): <span style={{marginLeft: '20px', fontWeight:'800'}}>{kwota}  zł</span>
     </div>
   );
