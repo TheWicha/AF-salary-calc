@@ -3,7 +3,7 @@ import styled from "styled-components";
 import CountBrutto from "./CountBrutto";
 import CountBruttoBrutto from "./CountBruttoBrutto";
 import CountNetto from "./CountNetto";
-import Navbar from "./Navbar";
+import img from "../images/icon.png";
 
 const Main = () => {
   const [radioVal, setRadioVal] = useState("brutto");
@@ -13,7 +13,7 @@ const Main = () => {
   const [bruttoBrutto, setBruttoBrutto] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isBolded, setIsBolded] = useState(true);
-  const [isChecked, setIsChecked] = useState('brutto')
+  const [isChecked, setIsChecked] = useState("brutto");
 
   const handleValueChange = (e) => {
     e.target.type === "radio" ? setRadioVal(e.target.value) : setInputVal(e.target.value);
@@ -47,41 +47,64 @@ const Main = () => {
 
   return (
     <StyledSection>
-      <Navbar />
       <ContentWrapper>
         {!isVisible && (
           <>
-            <StyledRadioLabel
-              style={{ fontWeight: isBolded ? "bold" : "normal" }}
-              onClick={() => {
-                setIsBolded(true);
-              }}
-              htmlFor="brutto"
-      
-            >
-              brutto
-              <input type="radio" name="typ_wynagrodzenia" id="brutto" value="brutto" onClick={handleValueChange} checked={isChecked === "brutto"} onChange={(e)=>{setIsChecked(e.target.value)}}/>
-            </StyledRadioLabel>
-            <StyledRadioLabel
-              style={{ fontWeight: !isBolded ? "bold" : "normal" }}
-              onClick={() => {
-                setIsBolded(false);
-              }}
-              htmlF
-              or="netto"
-            >
-              netto (na ręke)
-              <input type="radio" id="netto" name="typ_wynagrodzenia" value="netto" onClick={handleValueChange} checked={isChecked === "netto"} onChange={(e)=>{setIsChecked(e.target.value)}}/>
-            </StyledRadioLabel>
             <StyledForm onSubmit={handleSubmit}>
-
               <KwotaWrapper>
-              <StyledTitle>Podaj kwotę wynagrodzenia</StyledTitle>
+                <StyledTitle>Podaj kwotę wynagrodzenia</StyledTitle>
+                <RadioWrapper>
+                  <StyledRadioLabel
+                    style={{ fontWeight: isBolded ? "bold" : "normal" }}
+                    onClick={() => {
+                      setIsBolded(true);
+                    }}
+                    htmlFor="brutto"
+                  >
+                    brutto
+                    <input
+                      type="radio"
+                      name="typ_wynagrodzenia"
+                      id="brutto"
+                      value="brutto"
+                      onClick={handleValueChange}
+                      checked={isChecked === "brutto"}
+                      onChange={(e) => {
+                        setIsChecked(e.target.value);
+                      }}
+                    />
+                  </StyledRadioLabel>
+                  <StyledRadioLabel
+                    style={{ fontWeight: !isBolded ? "bold" : "normal" }}
+                    onClick={() => {
+                      setIsBolded(false);
+                    }}
+                    htmlF
+                    or="netto"
+                  >
+                    netto (na rękę)
+                    <input
+                      type="radio"
+                      id="netto"
+                      name="typ_wynagrodzenia"
+                      value="netto"
+                      onClick={handleValueChange}
+                      checked={isChecked === "netto"}
+                      onChange={(e) => {
+                        setIsChecked(e.target.value);
+                      }}
+                    />
+                  </StyledRadioLabel>
+                </RadioWrapper>
                 <span>kwota wynagrodzenia {radioVal === "brutto" ? "(brutto)" : "(netto)"}</span>
+
                 <input type="number" value={inputVal} onChange={handleValueChange} />
               </KwotaWrapper>
               <StyledButton type="submit" value="Oblicz" />
             </StyledForm>
+            <TextBox>
+              <p></p>
+            </TextBox>
           </>
         )}
         {isVisible && (
@@ -148,6 +171,14 @@ const Main = () => {
                 </tr>
               </tbody>
             </StyledTable>
+            <TextBoxWrapper>
+              <TextBox>
+                Widzisz już korzyść ze współpracy z osobą z niepełnosprawnością? Teraz dowiedz się, ile dokładnie Twoja
+                firma może zaoszczędzić, uwzględniając poziom ogólnego zatrudnienia. Wypełnij formularz, aby skorzystać
+                z darmowej konsultacji!
+              </TextBox>
+              <img src={img} alt="salary calculator" />
+            </TextBoxWrapper>
           </>
         )}
       </ContentWrapper>
@@ -182,7 +213,7 @@ const KwotaWrapper = styled.label`
   &:after {
     content: "ZŁ";
     position: absolute;
-    top: 74%;
+    top: 78%;
     right: 40px;
     font-size: 21px;
   }
@@ -238,16 +269,45 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledRadioLabel = styled.label`
-  padding-right: 50px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  display: flex;
   cursor: pointer;
   font-size: 20px;
   input {
     cursor: pointer;
+    margin: 5px 15px 0 5px;
   }
 `;
 
 const StyledTitle = styled.span`
   margin-bottom: 20px;
+`;
+
+const RadioWrapper = styled.div`
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+`;
+
+const TextBox = styled.div`
+  color: #202020;
+  font-size: 20px;
+  font-family: "Source Sans Pro", sans-serif;
+  width: 60%;
+  margin-top: 20px;
+`;
+
+const TextBoxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 99%;
+  margin-top: 3em;
+  img {
+    max-width: 200px;
+  }
 `;
 
 export default Main;
